@@ -1,4 +1,5 @@
 import { Block } from '~/types'
+import { ref } from 'vue'
 
 const mineRatio = 0.15625
 
@@ -9,6 +10,7 @@ export function initDemine(rows: number, cols: number) {
   let initiated = false
 
   const status = ref<'playing' | 'won' | 'lost'>('playing')
+  const flagsCount = ref(0)
 
   const blocks = ref<Block[]>(
     new Array(size).fill(null).map(() => ({
@@ -45,17 +47,15 @@ export function initDemine(rows: number, cols: number) {
   }
 
   function openBlock(index: number) {
-    const _blocks: Block[] = blocks.value
+    const _blocks = blocks.value
 
     if (!initiated) init(index)
 
-    if (_blocks[index].isRevealed || _blocks[index].isFlagged) {
-      return
-    }
+    if (_blocks[index].isRevealed || _blocks[index].isFlagged) return
 
     if (_blocks[index].isMine) {
       status.value = 'lost'
-      _blocks.forEach((block) => block.isMine && (block.isRevealed = true))
+      _blocks.forEach((block) => (block.isMine || block.isFlagged) && (block.isRevealed = true))
       return
     }
 
@@ -75,18 +75,20 @@ export function initDemine(rows: number, cols: number) {
   function flagBlock(e: Event, index: number) {
     e.preventDefault()
 
-    const _blocks: Block[] = blocks.value
+    const _blocks = blocks.value
 
-    if (_blocks[index].isRevealed) {
-      return
-    }
+    if (_blocks[index].isRevealed) return
+    if (!_blocks[index].isFlagged && flagsCount.value === mines) return
 
+    flagsCount.value += _blocks[index].isFlagged ? -1 : 1
     _blocks[index].isFlagged = !_blocks[index].isFlagged
   }
 
   return {
     blocks,
     status,
+    minesCount: mines,
+    flagsCount,
     openBlock,
     flagBlock,
   }
