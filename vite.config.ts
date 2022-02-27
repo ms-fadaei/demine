@@ -28,6 +28,7 @@ export default {
     // https://github.com/antfu/unocss
     Unocss({
       shortcuts: [
+        ['hole', '!bg-blue-gray-200 !dark:bg-blue-gray-800'],
         [
           'btn',
           'px-4 py-1 rounded inline-block bg-teal-600 text-white cursor-pointer hover:bg-teal-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50',
@@ -39,7 +40,7 @@ export default {
         ['wrapper', 'overflow-x-auto max-w-full grid gap-1'],
         [
           'tile',
-          'w-10 h-10 rounded-md bg-blue-gray-300 text-blue-gray-800 dark:bg-blue-gray-700 dark:text-blue-gray-50 block',
+          'w-5 h-5 text-xs rounded-md bg-blue-gray-300 text-blue-gray-800 dark:bg-blue-gray-600 dark:text-blue-gray-50 block',
         ],
       ],
       presets: [
