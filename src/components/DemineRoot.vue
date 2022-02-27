@@ -2,11 +2,8 @@
   <div class="grid gap-1 grid-template" v-bind="$attrs">
     <div v-for="(cell, index) in blocks" :key="index">
       <button
-        class="tile"
-        :class="{
-          '!bg-blue-gray-200 !dark:bg-blue-gray-700':
-            cell.isRevealed && cell.isEmpty && cell.mineCount === 0,
-        }"
+        class="tile transition-colors duration-50 ease-linear"
+        :class="{ 'tile-hole': cell.isRevealed && cell.isEmpty && cell.mineCount === 0 }"
         :disabled="cell.isRevealed || status !== 'playing'"
         @click="openBlock(index)"
         @contextmenu="flagBlock($event, index)"
@@ -15,7 +12,9 @@
           <span v-if="cell.isMine">✔️</span>
           <span v-else>❌</span>
         </template>
-        <span v-else-if="cell.isFlagged">🚩</span>
+        <template v-else-if="cell.isFlagged">
+          <span>🚩</span>
+        </template>
         <template v-else-if="cell.isRevealed">
           <span v-if="cell.isMine">💣</span>
           <span v-else-if="cell.mineCount > 0">{{ cell.mineCount }}</span>
