@@ -3,7 +3,7 @@
     <div v-for="(cell, index) in blocks" :key="index">
       <button
         class="tile transition-colors duration-50 ease-linear"
-        :class="{ 'tile-hole': cell.isRevealed && cell.isEmpty && cell.mineCount === 0 }"
+        :class="{ 'tile-hole': cell.isRevealed && !cell.isMine && cell.mineCount === 0 }"
         :disabled="cell.isRevealed || status !== 'playing'"
         @click="openBlock(index)"
         @contextmenu="flagBlock($event, index)"

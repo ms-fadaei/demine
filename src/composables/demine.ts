@@ -17,7 +17,6 @@ export function initDemine(rows: number, cols: number) {
       isMine: false,
       isRevealed: false,
       isFlagged: false,
-      isEmpty: true,
       mineCount: 0,
     }))
   )
@@ -30,9 +29,8 @@ export function initDemine(rows: number, cols: number) {
     while (minesTemp > 0) {
       const index = Math.floor(Math.random() * size)
 
-      if (!firstBlockNeighbors.includes(index) && blocks.value[index].isEmpty) {
+      if (!firstBlockNeighbors.includes(index) && !blocks.value[index].isMine) {
         blocks.value[index].isMine = true
-        blocks.value[index].isEmpty = false
 
         const neighbors = getNeighborsIndex(index, rows, cols)
         neighbors.forEach((neighbor) => {
