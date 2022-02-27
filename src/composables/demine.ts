@@ -5,9 +5,9 @@ const mineRatio = 0.15625
 
 export function initDemine(rows: number, cols: number) {
   const size = rows * cols
-  const mines = Math.floor(size * mineRatio)
-  let revealedBlocks = 0
-  let initiated = false
+  const minesCount = Math.floor(size * mineRatio)
+  let revealedBlocksCount = 0
+  let gameInitiated = false
 
   const status = ref<'playing' | 'won' | 'lost'>('playing')
   const flagsCount = ref(0)
@@ -22,7 +22,7 @@ export function initDemine(rows: number, cols: number) {
   )
 
   function init(index: number) {
-    let minesTemp = mines
+    let minesTemp = minesCount
     const firstBlockNeighbors = getNeighborsIndex(index, rows, cols)
     firstBlockNeighbors.push(index)
 
@@ -41,54 +41,54 @@ export function initDemine(rows: number, cols: number) {
       }
     }
 
-    initiated = true
+    gameInitiated = true
   }
 
-  function openBlock(index: number) {
-    const _blocks = blocks.value
+  function open(index: number) {
+    const targetBlock = blocks.value[index]
 
-    if (!initiated) init(index)
+    if (targetBlock.isRevealed || targetBlock.isFlagged) return
 
-    if (_blocks[index].isRevealed || _blocks[index].isFlagged) return
+    if (!gameInitiated) {
+      init(index)
+    }
 
-    if (_blocks[index].isMine) {
+    if (targetBlock.isMine) {
       status.value = 'lost'
-      _blocks.forEach((block) => (block.isMine || block.isFlagged) && (block.isRevealed = true))
+      blocks.value.filter((b) => b.isMine || b.isFlagged).forEach((b) => (b.isRevealed = true))
       return
     }
 
-    if (_blocks[index].mineCount === 0) {
-      _blocks[index].isRevealed = true
+    targetBlock.isRevealed = true
+    if (targetBlock.mineCount === 0) {
       const neighbors = getNeighborsIndex(index, rows, cols)
-      neighbors.forEach((neighbor) => openBlock(neighbor))
-    } else {
-      _blocks[index].isRevealed = true
+      neighbors.forEach((neighbor) => open(neighbor))
     }
 
-    if (++revealedBlocks === size - mines) {
+    if (++revealedBlocksCount === size - minesCount) {
       status.value = 'won'
     }
   }
 
-  function flagBlock(e: Event, index: number) {
+  function flag(e: Event, index: number) {
     e.preventDefault()
 
-    const _blocks = blocks.value
+    const targetBlock = blocks.value[index]
 
-    if (_blocks[index].isRevealed) return
-    if (!_blocks[index].isFlagged && flagsCount.value === mines) return
+    if (targetBlock.isRevealed) return
+    if (!targetBlock.isFlagged && flagsCount.value === minesCount) return
 
-    flagsCount.value += _blocks[index].isFlagged ? -1 : 1
-    _blocks[index].isFlagged = !_blocks[index].isFlagged
+    targetBlock.isFlagged = !targetBlock.isFlagged
+    flagsCount.value += targetBlock.isFlagged ? 1 : -1
   }
 
   return {
     blocks,
     status,
-    minesCount: mines,
+    minesCount,
     flagsCount,
-    openBlock,
-    flagBlock,
+    open,
+    flag,
   }
 }
 

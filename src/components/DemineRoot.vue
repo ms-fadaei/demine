@@ -5,8 +5,8 @@
         class="tile transition-colors duration-50 ease-linear"
         :class="{ 'tile-hole': cell.isRevealed && !cell.isMine && cell.mineCount === 0 }"
         :disabled="cell.isRevealed || status !== 'playing'"
-        @click="openBlock(index)"
-        @contextmenu="flagBlock($event, index)"
+        @click="open(index)"
+        @contextmenu="flag($event, index)"
       >
         <template v-if="cell.isRevealed && cell.isFlagged">
           <span v-if="cell.isMine">✔️</span>
@@ -46,8 +46,7 @@ interface Props {
 
 const $props = defineProps<Props>()
 const { rows, cols } = toRefs($props)
-// eslint-disable-next-line prettier/prettier
-const { blocks, minesCount, flagsCount, status, openBlock, flagBlock } = initDemine(rows.value, cols.value)
+const { blocks, minesCount, flagsCount, status, open, flag } = initDemine(rows.value, cols.value)
 </script>
 
 <style>
