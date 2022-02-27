@@ -4,8 +4,9 @@ const mineRatio = 0.15625
 
 export function initDemine(rows: number, cols: number) {
   const size = rows * cols
-  let mines = Math.floor(size * mineRatio)
+  const mines = Math.floor(size * mineRatio)
   let revealedBlocks = 0
+  let initiated = false
 
   const status = ref<'playing' | 'won' | 'lost'>('playing')
 
@@ -19,24 +20,34 @@ export function initDemine(rows: number, cols: number) {
     }))
   )
 
-  while (mines > 0) {
-    const index = Math.floor(Math.random() * size)
+  function init(index: number) {
+    let minesTemp = mines
+    const firstBlockNeighbors = getNeighborsIndex(index, rows, cols)
+    firstBlockNeighbors.push(index)
 
-    if (blocks.value[index].isEmpty) {
-      blocks.value[index].isMine = true
-      blocks.value[index].isEmpty = false
+    while (minesTemp > 0) {
+      const index = Math.floor(Math.random() * size)
 
-      const neighbors = getNeighborsIndex(index, cols)
-      neighbors.forEach((neighbor) => {
-        blocks.value[neighbor].mineCount++
-      })
+      if (!firstBlockNeighbors.includes(index) && blocks.value[index].isEmpty) {
+        blocks.value[index].isMine = true
+        blocks.value[index].isEmpty = false
 
-      mines--
+        const neighbors = getNeighborsIndex(index, rows, cols)
+        neighbors.forEach((neighbor) => {
+          blocks.value[neighbor].mineCount++
+        })
+
+        minesTemp--
+      }
     }
+
+    initiated = true
   }
 
   function openBlock(index: number) {
     const _blocks: Block[] = blocks.value
+
+    if (!initiated) init(index)
 
     if (_blocks[index].isRevealed || _blocks[index].isFlagged) {
       return
@@ -50,7 +61,7 @@ export function initDemine(rows: number, cols: number) {
 
     if (_blocks[index].mineCount === 0) {
       _blocks[index].isRevealed = true
-      const neighbors = getNeighborsIndex(index, cols)
+      const neighbors = getNeighborsIndex(index, rows, cols)
       neighbors.forEach((neighbor) => openBlock(neighbor))
     } else {
       _blocks[index].isRevealed = true
@@ -73,8 +84,6 @@ export function initDemine(rows: number, cols: number) {
     _blocks[index].isFlagged = !_blocks[index].isFlagged
   }
 
-  print(blocks.value)
-
   return {
     blocks,
     status,
@@ -83,17 +92,17 @@ export function initDemine(rows: number, cols: number) {
   }
 }
 
-function getY(index: number, size: number) {
-  return Math.floor(index / size)
+function getY(index: number, cols: number) {
+  return Math.floor(index / cols)
 }
 
-function getX(index: number, size: number) {
-  return index % size
+function getX(index: number, cols: number) {
+  return index % cols
 }
 
-function getNeighborsIndex(index: number, size: number) {
-  const y = getY(index, size)
-  const x = getX(index, size)
+function getNeighborsIndex(index: number, rows: number, cols: number) {
+  const y = getY(index, cols)
+  const x = getX(index, cols)
 
   const coordinates = [
     { y: y - 1, x: x - 1 },
@@ -104,26 +113,7 @@ function getNeighborsIndex(index: number, size: number) {
     { y: y + 1, x: x - 1 },
     { y: y + 1, x: x },
     { y: y + 1, x: x + 1 },
-  ].filter(({ y, x }) => y >= 0 && y < size && x >= 0 && x < size)
+  ].filter(({ y, x }) => y >= 0 && y < rows && x >= 0 && x < cols)
 
-  return coordinates.map(({ y, x }) => y * size + x)
-}
-
-function print(blocks: Block[]) {
-  const size = Math.sqrt(blocks.length)
-  const rows = blocks.reduce((rows: string[][], block, index) => {
-    const y = getY(index, size)
-    const x = getX(index, size)
-
-    if (y === 0) {
-      rows.push(new Array(size).fill(' '))
-    }
-
-    rows[y][x] = block.isMine ? '*' : String(block.mineCount)
-    return rows
-  }, [])
-
-  rows.forEach((row) => {
-    console.log(row.join(' '))
-  }, [])
+  return coordinates.map(({ y, x }) => y * cols + x)
 }

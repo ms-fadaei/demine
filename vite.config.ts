@@ -40,7 +40,7 @@ export default {
         ['wrapper', 'overflow-x-auto max-w-full grid gap-1'],
         [
           'tile',
-          'w-5 h-5 text-xs rounded-md bg-blue-gray-300 text-blue-gray-800 dark:bg-blue-gray-600 dark:text-blue-gray-50 block',
+          'w-8 h-8 text-sm rounded-md bg-blue-gray-300 text-blue-gray-800 dark:bg-blue-gray-600 dark:text-blue-gray-50 block',
         ],
       ],
       presets: [
