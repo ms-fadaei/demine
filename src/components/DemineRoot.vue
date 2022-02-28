@@ -22,11 +22,14 @@
       </button>
     </div>
   </div>
+  <div v-if="status !== 'playing'" class="mt-5">
+    <button class="restart-button" @click="restart">Restart Game</button>
+  </div>
   <div class="mt-5">
     <div>
       <span>Game Status: </span>
       <strong v-if="status === 'won'" class="text-emerald-600">You Won!</strong>
-      <strong v-else-if="status === 'lost'" class="text-rose-500">You Lost!</strong>
+      <strong v-else-if="status === 'lost'" class="text-rose-500">Game Over!</strong>
       <strong v-else class="text-pink-500">Playing</strong>
     </div>
     <div class="mt-1">
@@ -46,7 +49,10 @@ interface Props {
 
 const $props = defineProps<Props>()
 const { rows, cols } = toRefs($props)
-const { blocks, minesCount, flagsCount, status, open, flag } = initDemine(rows.value, cols.value)
+const { blocks, minesCount, flagsCount, status, open, flag, restart } = initDemine(
+  rows.value,
+  cols.value
+)
 </script>
 
 <style>

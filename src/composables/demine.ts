@@ -11,18 +11,30 @@ export function initDemine(rows: number, cols: number) {
 
   const status = ref<'playing' | 'won' | 'lost'>('playing')
   const flagsCount = ref(0)
-  const blocks = ref<Block[]>(
-    new Array(size).fill(null).map(() => ({
+  const blocks = ref<Block[]>([])
+
+  // use for game status initialization
+  // and reset game status for restart
+  function init() {
+    revealedBlocksCount = 0
+    gameInitiated = false
+
+    status.value = 'playing'
+    flagsCount.value = 0
+    blocks.value = new Array(size).fill(null).map(() => ({
       isMine: false,
       isRevealed: false,
       isFlagged: false,
       mineCount: 0,
     }))
-  )
+  }
+
+  // init game status
+  init()
 
   // we need to init game based on the first chosen block
   // so we can considered it is empty
-  function init(index: number) {
+  function fillBlocks(index: number) {
     let minesCountTracker = minesCount
 
     // get all neighbors of the chosen block (including the chosen block)
@@ -55,7 +67,7 @@ export function initDemine(rows: number, cols: number) {
 
     // init game for first chosen block
     if (!gameInitiated) {
-      init(index)
+      fillBlocks(index)
     }
 
     if (targetBlock.isMine) {
@@ -88,6 +100,10 @@ export function initDemine(rows: number, cols: number) {
     flagsCount.value += targetBlock.isFlagged ? 1 : -1
   }
 
+  function restart() {
+    init()
+  }
+
   return {
     blocks,
     status,
@@ -95,6 +111,7 @@ export function initDemine(rows: number, cols: number) {
     flagsCount,
     open,
     flag,
+    restart,
   }
 }
 

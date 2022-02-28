@@ -39,9 +39,13 @@ export default {
         ['wrapper', 'overflow-x-auto max-w-full grid gap-1'],
         [
           'tile',
-          'w-8 h-8 text-sm rounded-md bg-blue-gray-300 text-blue-gray-800 dark:bg-blue-gray-600 dark:text-blue-gray-50 block',
+          'w-8 h-8 text-sm rounded-md bg-blue-gray-300 text-blue-gray-800 dark:bg-blue-gray-600 dark:text-blue-gray-50 block select-none',
         ],
         ['tile-hole', 'bg-blue-gray-200 dark:bg-blue-gray-700'],
+        [
+          'restart-button',
+          'py-2 px-3 rounded-md bg-blue-gray-300 text-blue-gray-800 dark:bg-blue-gray-600 dark:text-blue-gray-50',
+        ],
       ],
       presets: [
         presetUno(),
