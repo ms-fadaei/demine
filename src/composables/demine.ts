@@ -13,8 +13,8 @@ export function initDemine(rows: number, cols: number) {
   const flagsCount = ref(0)
   const blocks = ref<Block[]>([])
 
-  // use for game status initialization
-  // and reset game status for restart
+  // init game stats/variables
+  // use for restarting game also
   function init() {
     revealedBlocksCount = 0
     gameInitiated = false
@@ -100,10 +100,6 @@ export function initDemine(rows: number, cols: number) {
     flagsCount.value += targetBlock.isFlagged ? 1 : -1
   }
 
-  function restart() {
-    init()
-  }
-
   return {
     blocks,
     status,
@@ -111,7 +107,7 @@ export function initDemine(rows: number, cols: number) {
     flagsCount,
     open,
     flag,
-    restart,
+    restart: init,
   }
 }
 
