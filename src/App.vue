@@ -15,7 +15,7 @@
 import { useHead } from '@vueuse/head'
 
 useHead({
-  title: 'DEMINE',
+  title: 'Demine',
   meta: [
     {
       name: `description`,
