@@ -1,5 +1,9 @@
 <template>
-  <div class="grid gap-1 grid-template" v-bind="$attrs">
+  <div
+    class="grid gap-1"
+    :style="{ 'grid-template-columns': `repeat(${cols}, 1fr)` }"
+    v-bind="$attrs"
+  >
     <div v-for="(cell, index) in blocks" :key="index">
       <button
         class="tile transition-colors duration-50 ease-linear"
@@ -54,10 +58,3 @@ const { blocks, minesCount, flagsCount, status, open, flag, restart } = initDemi
   cols.value
 )
 </script>
-
-<style>
-.grid-template {
-  grid-template-columns: repeat(v-bind(cols), minmax(min-content, max-content));
-  grid-template-rows: repeat(v-bind(rows), minmax(min-content, max-content));
-}
-</style>

@@ -27,6 +27,16 @@ export default {
 
     // https://github.com/antfu/unocss
     Unocss({
+      rules: [
+        [
+          /^cgc-(\d+)$/,
+          ([, d]) => ({ 'grid-template-cols': `repeat(${d}, minmax(min-content, max-content))` }),
+        ],
+        [
+          /^c-grid-rows-(\d+)$/,
+          ([, d]) => ({ 'grid-template-rows': `repeat(${d}, minmax(min-content, max-content))` }),
+        ],
+      ],
       shortcuts: [
         [
           'btn',
