@@ -21,6 +21,7 @@ export function initDemine(rows: number, cols: number) {
     isRevealed: false,
     isFlagged: false,
     mineCount: 0,
+    flagCount: 0,
   }))
 
   // we need to init game based on the first chosen block
@@ -87,8 +88,12 @@ export function initDemine(rows: number, cols: number) {
     if (targetBlock.isRevealed) return
     if (!targetBlock.isFlagged && flagsCount.value === minesCount) return
 
+    const addFlagCount = targetBlock.isFlagged ? -1 : +1
     targetBlock.isFlagged = !targetBlock.isFlagged
-    flagsCount.value += targetBlock.isFlagged ? 1 : -1
+    flagsCount.value += addFlagCount
+
+    const neighbors = getNeighborsIndex(index, rows, cols)
+    neighbors.forEach((neighbor) => (blocks.value[neighbor].flagCount += addFlagCount))
   }
 
   return {

@@ -52,6 +52,8 @@ export default {
           'w-6 h-6 text-xs rounded-1 bg-slate-400/60 text-slate-800 dark:bg-slate-600 dark:text-slate-50 block select-none',
         ],
         ['tile-hole', 'bg-slate-300 dark:bg-slate-700'],
+        ['tile-checked', 'bg-cyan-600/40 dark:bg-cyan-700/75'],
+        ['tile-mine', 'bg-red-500/45 dark:bg-red-500/45'],
         [
           'button',
           'py-1 px-3 rounded-md bg-slate-300 text-slate-800 dark:bg-slate-600 dark:text-slate-50',

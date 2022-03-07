@@ -8,7 +8,11 @@
     <div v-for="(cell, index) in blocks" :key="index">
       <button
         class="tile transition-colors duration-50 ease-linear"
-        :class="{ 'tile-hole': cell.isRevealed && !cell.isMine && cell.mineCount === 0 }"
+        :class="{
+          'tile-hole': isHole(cell),
+          'tile-checked': isSatisfied(cell),
+          '!tile-mine': isMine(cell),
+        }"
         :disabled="cell.isRevealed || status !== 'playing'"
         @click="openTile(index)"
         @contextmenu="flag($event, index)"
@@ -42,6 +46,7 @@
 
 <script setup lang="ts">
 import { initDemine } from '~/composables'
+import { Block } from '~/types'
 
 interface Props {
   rows: number
@@ -58,4 +63,11 @@ const openTile = (index: number) => {
   lastIndex.value = index
   open(index)
 }
+
+const isMine = (cell: Block) => cell.isRevealed && cell.isMine
+const isHole = (cell: Block) => cell.isRevealed && !cell.isMine && cell.mineCount === 0
+const isSatisfied = (cell: Block) =>
+  // eslint-disable-next-line prettier/prettier
+  (cell.isRevealed && cell.flagCount >= cell.mineCount && cell.flagCount !== 0 && !cell.isFlagged) ||
+  (!cell.isRevealed && cell.isFlagged)
 </script>

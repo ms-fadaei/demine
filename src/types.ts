@@ -3,4 +3,5 @@ export interface Block {
   isRevealed: boolean
   isFlagged: boolean
   mineCount: number
+  flagCount: number
 }
