@@ -11,12 +11,11 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
 
-      - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
-        run: |
-          npm i
-          npm run generate
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.2.2
+      - uses: jsmrcaga/action-netlify-deploy@v1.7.2
         with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: dist # The folder the action should deploy.
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_SECRET_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_DEPLOY_MESSAGE: "Prod deploy v${{ github.ref }}"
+          NETLIFY_DEPLOY_TO_PROD: true
+          build_command: "yarn generate"
+          build_directory: "dist"

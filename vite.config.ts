@@ -70,7 +70,6 @@ export default {
       ],
     }),
   ],
-  base: 'https://ms-fadaei.github.io/demine/',
 
   // https://github.com/antfu/vite-ssg
   ssgOptions: {

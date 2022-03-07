@@ -1,5 +1,5 @@
 # Demine
-> A simple implementation of the old but gold Minesweeper game. [Try it now!](https://ms-fadaei.github.io/demine/)
+> A simple implementation of the old but gold Minesweeper game. [Try it now!](https://demine.netlify.app)
 
 ## What did I use?
 - [Vue 3](https://v3.vuejs.org/)
