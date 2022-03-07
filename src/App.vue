@@ -15,7 +15,7 @@
 import { useHead } from '@vueuse/head'
 
 const step = ref(0)
-const size = ref(5)
+const size = ref(8)
 
 useHead({
   title: 'Demine',
