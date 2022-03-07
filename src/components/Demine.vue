@@ -37,7 +37,7 @@
     :mines-count="minesCount"
     :status="status"
   />
-  <button class="button mt-2 w-40" @click="restart">restart</button>
+  <button class="button mt-2 w-40" @click="$emit('restart')">restart</button>
 </template>
 
 <script setup lang="ts">
@@ -48,12 +48,10 @@ interface Props {
   cols: number
 }
 
+const $emit = defineEmits(['restart'])
 const $props = defineProps<Props>()
 const { rows, cols } = toRefs($props)
-const { blocks, minesCount, flagsCount, status, open, flag, restart } = initDemine(
-  rows.value,
-  cols.value
-)
+const { blocks, minesCount, flagsCount, status, open, flag } = initDemine(rows.value, cols.value)
 
 const lastIndex = ref(-1)
 const openTile = (index: number) => {

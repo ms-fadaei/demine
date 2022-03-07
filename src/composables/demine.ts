@@ -11,26 +11,17 @@ export function initDemine(rows: number, cols: number) {
 
   const status = ref<'playing' | 'won' | 'lost'>('playing')
   const flagsCount = ref(0)
-  const blocks = ref<Block[]>([])
+  const blocks = ref<Block[]>(new Array(size).fill(null))
 
-  // init game stats/variables
-  // use for restarting game also
-  function init() {
-    revealedBlocksCount = 0
-    gameInitiated = false
+  revealedBlocksCount = 0
+  gameInitiated = false
 
-    status.value = 'playing'
-    flagsCount.value = 0
-    blocks.value = new Array(size).fill(null).map(() => ({
-      isMine: false,
-      isRevealed: false,
-      isFlagged: false,
-      mineCount: 0,
-    }))
-  }
-
-  // init game status
-  init()
+  blocks.value = blocks.value.map(() => ({
+    isMine: false,
+    isRevealed: false,
+    isFlagged: false,
+    mineCount: 0,
+  }))
 
   // we need to init game based on the first chosen block
   // so we can considered it is empty
@@ -107,7 +98,6 @@ export function initDemine(rows: number, cols: number) {
     flagsCount,
     open,
     flag,
-    restart: init,
   }
 }
 

@@ -4,9 +4,11 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Demine: typeof import('./src/components/Demine.vue')['default']
     DemineInfo: typeof import('./src/components/DemineInfo.vue')['default']
-    DemineRoot: typeof import('./src/components/DemineRoot.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
+    Intro: typeof import('./src/components/Intro.vue')['default']
+    IntroSize: typeof import('./src/components/IntroSize.vue')['default']
   }
 }
 
