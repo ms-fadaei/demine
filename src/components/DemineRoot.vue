@@ -9,7 +9,7 @@
         class="tile transition-colors duration-50 ease-linear"
         :class="{ 'tile-hole': cell.isRevealed && !cell.isMine && cell.mineCount === 0 }"
         :disabled="cell.isRevealed || status !== 'playing'"
-        @click="open(index)"
+        @click="openTile(index)"
         @contextmenu="flag($event, index)"
       >
         <template v-if="cell.isRevealed && cell.isFlagged">
@@ -20,7 +20,10 @@
           <span>🚩</span>
         </template>
         <template v-else-if="cell.isRevealed">
-          <span v-if="cell.isMine">💣</span>
+          <span v-if="cell.isMine">
+            <template v-if="lastIndex === index">💥</template>
+            <template v-else>💣</template>
+          </span>
           <span v-else-if="cell.mineCount > 0">{{ cell.mineCount }}</span>
         </template>
       </button>
@@ -57,4 +60,10 @@ const { blocks, minesCount, flagsCount, status, open, flag, restart } = initDemi
   rows.value,
   cols.value
 )
+
+const lastIndex = ref(-1)
+const openTile = (index: number) => {
+  lastIndex.value = index
+  open(index)
+}
 </script>
