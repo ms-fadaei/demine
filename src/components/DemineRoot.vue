@@ -1,6 +1,7 @@
 <template>
+  <h1 class="text-2xl font-bold mb-3 text-cool-gray-600 dark:text-cool-gray-400">DEMINE</h1>
   <div
-    class="grid gap-1"
+    class="grid gap-1 relative"
     :style="{ 'grid-template-columns': `repeat(${cols}, 1fr)` }"
     v-bind="$attrs"
   >
@@ -20,30 +21,23 @@
           <span>🚩</span>
         </template>
         <template v-else-if="cell.isRevealed">
-          <span v-if="cell.isMine">
-            <template v-if="lastIndex === index">💥</template>
-            <template v-else>💣</template>
-          </span>
+          <template v-if="cell.isMine">
+            <span v-if="lastIndex === index">💥</span>
+            <span v-else>💣</span>
+          </template>
           <span v-else-if="cell.mineCount > 0">{{ cell.mineCount }}</span>
         </template>
       </button>
     </div>
+    <div v-if="status === 'won'" class="won"><span>You Won</span></div>
   </div>
-  <div v-if="status !== 'playing'" class="mt-5">
-    <button class="restart-button" @click="restart">Restart Game</button>
-  </div>
-  <div class="mt-5">
-    <div>
-      <span>Game Status: </span>
-      <strong v-if="status === 'won'" class="text-emerald-600">You Won!</strong>
-      <strong v-else-if="status === 'lost'" class="text-rose-500">Game Over!</strong>
-      <strong v-else class="text-pink-500">Playing</strong>
-    </div>
-    <div class="mt-1">
-      <span>Flags: </span>
-      <strong class="text-indigo-500">{{ flagsCount }}/{{ minesCount }}</strong>
-    </div>
-  </div>
+  <DemineInfo
+    class="mt-6 w-40"
+    :flags-count="flagsCount"
+    :mines-count="minesCount"
+    :status="status"
+  />
+  <button class="button mt-2 w-40" @click="restart">restart</button>
 </template>
 
 <script setup lang="ts">
