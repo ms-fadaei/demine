@@ -1,5 +1,19 @@
 <template>
-  <h1 class="mb-3 text-orange-500 text-5xl font-bold">DEMINE</h1>
+  <h1
+    class="mb-3 text-5xl font-bold transition-colors duration-250 ease-in-out"
+    :class="{
+      'text-blue-500': size === 5,
+      'text-sky-500': size === 6,
+      'text-teal-500': size === 7,
+      'text-green-500': size === 8,
+      'text-lime-500': size === 9,
+      'text-amber-500': size === 10,
+      'text-orange-500': size === 11,
+      'text-red-500': size === 12,
+    }"
+  >
+    DEMINE
+  </h1>
   <IntroSize v-model="size" class="mt-4 mb-3" />
   <button class="button min-w-25" @click="$emit('start')">Start The Game</button>
 </template>
