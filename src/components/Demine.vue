@@ -15,8 +15,8 @@
         }"
         :disabled="status !== 'playing'"
         @click="openTile(index)"
-        @contextmenu="flag($event, index)"
-        @dblclick="openNeighbours($event, index)"
+        @contextmenu="flagTile($event, index)"
+        @dblclick="openNeighboursTile($event, index)"
       >
         <template v-if="cell.isRevealed && cell.isFlagged">
           <span v-if="cell.isMine">✔️</span>
@@ -66,6 +66,16 @@ const lastIndex = ref(-1)
 const openTile = (index: number) => {
   lastIndex.value = index
   open(index)
+}
+
+const flagTile = (event: MouseEvent, index: number) => {
+  event.preventDefault()
+  flag(index)
+}
+
+const openNeighboursTile = (event: MouseEvent, index: number) => {
+  event.preventDefault()
+  openNeighbours(index)
 }
 
 const isMine = (cell: Block) => cell.isRevealed && cell.isMine

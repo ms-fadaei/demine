@@ -11,22 +11,19 @@ export function initDemine(rows: number, cols: number) {
 
   const status = ref<'playing' | 'won' | 'lost'>('playing')
   const flagsCount = ref(0)
-  const blocks = ref<Block[]>(new Array(size).fill(null))
-
-  revealedBlocksCount = 0
-  gameInitiated = false
-
-  blocks.value = blocks.value.map(() => ({
-    isMine: false,
-    isRevealed: false,
-    isFlagged: false,
-    mineCount: 0,
-    flagCount: 0,
-  }))
+  const blocks = ref<Block[]>(
+    [...Array(size)].map(() => ({
+      isMine: false,
+      isRevealed: false,
+      isFlagged: false,
+      mineCount: 0,
+      flagCount: 0,
+    }))
+  )
 
   // we need to init game based on the first chosen block
   // so we can considered it is empty
-  function fillBlocks(index: number) {
+  function init(index: number) {
     let minesCountTracker = minesCount
 
     // get all neighbors of the chosen block (including the chosen block)
@@ -58,9 +55,7 @@ export function initDemine(rows: number, cols: number) {
     if (targetBlock.isRevealed || targetBlock.isFlagged) return
 
     // init game for first chosen block
-    if (!gameInitiated) {
-      fillBlocks(index)
-    }
+    if (!gameInitiated) init(index)
 
     if (targetBlock.isMine) {
       status.value = 'lost'
@@ -80,9 +75,7 @@ export function initDemine(rows: number, cols: number) {
     }
   }
 
-  function flag(e: Event, index: number) {
-    e.preventDefault()
-
+  function flag(index: number) {
     const targetBlock = blocks.value[index]
 
     if (targetBlock.isRevealed) return
@@ -96,9 +89,7 @@ export function initDemine(rows: number, cols: number) {
     neighbors.forEach((neighbor) => (blocks.value[neighbor].flagCount += addFlagCount))
   }
 
-  function openNeighbours(e: Event, index: number) {
-    e.preventDefault()
-
+  function openNeighbours(index: number) {
     const targetBlock = blocks.value[index]
 
     if (!targetBlock.isRevealed) return
