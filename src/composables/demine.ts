@@ -96,6 +96,20 @@ export function initDemine(rows: number, cols: number) {
     neighbors.forEach((neighbor) => (blocks.value[neighbor].flagCount += addFlagCount))
   }
 
+  function openNeighbours(e: Event, index: number) {
+    e.preventDefault()
+
+    const targetBlock = blocks.value[index]
+
+    if (!targetBlock.isRevealed) return
+    if (targetBlock.flagCount !== targetBlock.mineCount) return
+
+    const neighbors = getNeighborsIndex(index, rows, cols)
+    neighbors
+      .filter((neighbor) => !blocks.value[neighbor].isRevealed || !blocks.value[neighbor].isFlagged)
+      .forEach(open)
+  }
+
   return {
     blocks,
     status,
@@ -103,6 +117,7 @@ export function initDemine(rows: number, cols: number) {
     flagsCount,
     open,
     flag,
+    openNeighbours,
   }
 }
 

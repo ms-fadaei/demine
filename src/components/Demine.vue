@@ -13,9 +13,10 @@
           'tile-checked': isSatisfied(cell),
           '!tile-mine': isMine(cell),
         }"
-        :disabled="cell.isRevealed || status !== 'playing'"
+        :disabled="status !== 'playing'"
         @click="openTile(index)"
         @contextmenu="flag($event, index)"
+        @dblclick="openNeighbours($event, index)"
       >
         <template v-if="cell.isRevealed && cell.isFlagged">
           <span v-if="cell.isMine">✔️</span>
@@ -56,7 +57,10 @@ interface Props {
 const $emit = defineEmits(['restart'])
 const $props = defineProps<Props>()
 const { rows, cols } = toRefs($props)
-const { blocks, minesCount, flagsCount, status, open, flag } = initDemine(rows.value, cols.value)
+const { blocks, minesCount, flagsCount, status, open, flag, openNeighbours } = initDemine(
+  rows.value,
+  cols.value
+)
 
 const lastIndex = ref(-1)
 const openTile = (index: number) => {
