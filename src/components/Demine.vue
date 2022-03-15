@@ -1,7 +1,8 @@
 <template>
   <h1 class="text-2xl font-bold mb-3 text-cool-gray-600 dark:text-cool-gray-400">DEMINE</h1>
   <div
-    class="grid gap-1 relative max-w-full overflow-auto"
+    class="grid gap-1 relative max-w-full overflow-auto d-scrollbar"
+    :class="{ 'overflow-hidden': status !== 'playing' }"
     :style="{ 'grid-template-columns': `repeat(${cols}, 1fr)` }"
     v-bind="$attrs"
   >

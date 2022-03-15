@@ -52,7 +52,7 @@ export default {
         ],
         [
           'tile',
-          'w-9 h-9 p-2 text-md rounded-1 bg-slate-400/60 text-slate-800 dark:bg-slate-600 dark:text-slate-50 block select-none',
+          'w-9 h-9 p-2 rounded-1 bg-slate-400/60 text-slate-800 dark:bg-slate-600 dark:text-slate-50 block select-none',
         ],
         ['tile-hole', 'bg-slate-300 dark:bg-slate-700'],
         ['tile-checked', 'bg-cyan-600/40 dark:bg-cyan-700/75'],
