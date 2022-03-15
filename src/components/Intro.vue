@@ -14,7 +14,7 @@
   >
     DEMINE
   </h1>
-  <IntroSize v-model="size" class="mt-4 mb-3" />
+  <IntroSize v-model="size" class="mt-4 mb-3" v-bind="$attrs" />
   <button class="button min-w-25" @click="$emit('start')">Start The Game</button>
 </template>
 
