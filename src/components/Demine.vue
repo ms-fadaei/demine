@@ -40,7 +40,7 @@
     class="mt-6 w-50"
     :flags-count="flagsCount"
     :mines-count="minesCount"
-    :status="status"
+    :timer="timer"
   />
   <button class="button mt-2 w-50" @click="$emit('restart')">restart</button>
 </template>
@@ -62,7 +62,7 @@ interface Props {
 const $emit = defineEmits(['restart'])
 const $props = defineProps<Props>()
 const { rows, cols } = toRefs($props)
-const { blocks, minesCount, flagsCount, status, open, flag, openNeighbours } = initDemine(
+const { blocks, minesCount, flagsCount, status, timer, open, flag, openNeighbours } = initDemine(
   rows.value,
   cols.value
 )

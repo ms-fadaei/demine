@@ -11,6 +11,7 @@ export function initDemine(rows: number, cols: number) {
 
   const status = ref<'playing' | 'won' | 'lost'>('playing')
   const flagsCount = ref(0)
+  const timer = ref('00:00')
   const blocks = ref<Block[]>(
     [...Array(size)].map(() => ({
       isMine: false,
@@ -47,6 +48,19 @@ export function initDemine(rows: number, cols: number) {
     }
 
     gameInitiated = true
+
+    // start timer
+    const { timestamp, pause } = useTimestamp({
+      offset: Date.now() * -1,
+      interval: 1000,
+      controls: true,
+    })
+
+    watch(status, (status) => status !== 'playing' && pause())
+    watch(timestamp, (timestamp) => {
+      const timestampInSec = Math.floor(timestamp / 1000)
+      timer.value = `${formatTimer(timestampInSec / 60)}:${formatTimer(timestampInSec % 60)}`
+    })
   }
 
   function open(index: number) {
@@ -106,6 +120,7 @@ export function initDemine(rows: number, cols: number) {
     status,
     minesCount,
     flagsCount,
+    timer,
     open,
     flag,
     openNeighbours,
@@ -136,4 +151,8 @@ function getNeighborsIndex(index: number, rows: number, cols: number) {
   ].filter(({ y, x }) => y >= 0 && y < rows && x >= 0 && x < cols)
 
   return coordinates.map(({ y, x }) => y * cols + x)
+}
+
+function formatTimer(time: number) {
+  return String(Math.floor(time)).padStart(2, '0')
 }
