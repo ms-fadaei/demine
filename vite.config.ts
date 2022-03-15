@@ -30,16 +30,6 @@ export default {
 
     // https://github.com/antfu/unocss
     Unocss({
-      rules: [
-        [
-          /^cgc-(\d+)$/,
-          ([, d]) => ({ 'grid-template-cols': `repeat(${d}, minmax(min-content, max-content))` }),
-        ],
-        [
-          /^c-grid-rows-(\d+)$/,
-          ([, d]) => ({ 'grid-template-rows': `repeat(${d}, minmax(min-content, max-content))` }),
-        ],
-      ],
       shortcuts: [
         ['normal-bg', 'p-2 rounded-2 bg-slate-200 dark:bg-slate-800'],
         [
@@ -54,16 +44,15 @@ export default {
           'tile',
           'w-9 h-9 p-2 rounded-1 bg-slate-400/60 text-slate-800 dark:bg-slate-600 dark:text-slate-50 block select-none',
         ],
+        ['playing-title', 'text-cool-gray-600 dark:text-cool-gray-400'],
+        ['won-title', 'text-green-600 dark:text-green-500'],
+        ['lost-title', 'text-red-600 dark:text-red-500'],
         ['tile-hole', 'bg-slate-300 dark:bg-slate-700'],
         ['tile-checked', 'bg-cyan-600/40 dark:bg-cyan-700/75'],
         ['tile-mine', 'bg-red-500/45 dark:bg-red-500/45'],
         [
           'button',
           'py-1 px-3 rounded-md bg-slate-300 text-slate-800 dark:bg-slate-600 dark:text-slate-50',
-        ],
-        [
-          'won',
-          'inset-0 absolute bg-slate-200/60 dark:bg-slate-800/60 flex justify-center items-center font-bold text-emerald-600 dark:text-emerald-400 text-xl',
         ],
       ],
       presets: [

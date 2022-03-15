@@ -1,8 +1,13 @@
 <template>
-  <h1 class="text-2xl font-bold mb-3 text-cool-gray-600 dark:text-cool-gray-400">DEMINE</h1>
+  <!-- playing-title won-title lost-title -->
+  <h1 class="text-2xl font-bold mb-3" :class="`${status}-title`">DEMINE</h1>
   <div
-    class="grid gap-1 relative max-w-full overflow-auto d-scrollbar"
-    :class="{ 'overflow-hidden': status !== 'playing' }"
+    class="grid gap-1 relative max-w-full overflow-auto border-1 d-scrollbar"
+    :class="{
+      'border-cool-gray-500': status === 'playing',
+      'border-green-500': status === 'won',
+      'border-red-500': status === 'lost',
+    }"
     :style="{ 'grid-template-columns': `repeat(${cols}, 1fr)` }"
     v-bind="$attrs"
   >
@@ -35,7 +40,6 @@
         <span v-else-if="cell.mineCount > 0">{{ cell.mineCount }}</span>
       </template>
     </button>
-    <div v-if="status === 'won'" class="won"><span>You Won</span></div>
   </div>
   <DemineInfo
     class="mt-6 w-50"
