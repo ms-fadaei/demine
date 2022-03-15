@@ -1,7 +1,7 @@
 <template>
   <main
     font-sans
-    class="flex flex-col h-screen justify-center items-center"
+    class="flex flex-col h-screen justify-center items-center p-3"
     un-bg="slate-50 dark:slate-900"
     un-text="gray-700 dark:gray-200"
   >

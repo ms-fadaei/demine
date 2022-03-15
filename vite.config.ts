@@ -1,5 +1,6 @@
 import path from 'path'
 import Vue from '@vitejs/plugin-vue'
+import svgLoader from 'vite-svg-loader'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import { presetAttributify, presetIcons, presetUno } from 'unocss'
@@ -13,6 +14,8 @@ export default {
   },
   plugins: [
     Vue(),
+
+    svgLoader(),
 
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({
@@ -49,7 +52,7 @@ export default {
         ],
         [
           'tile',
-          'w-6 h-6 text-xs rounded-1 bg-slate-400/60 text-slate-800 dark:bg-slate-600 dark:text-slate-50 block select-none',
+          'w-9 h-9 p-2 text-md rounded-1 bg-slate-400/60 text-slate-800 dark:bg-slate-600 dark:text-slate-50 block select-none',
         ],
         ['tile-hole', 'bg-slate-300 dark:bg-slate-700'],
         ['tile-checked', 'bg-cyan-600/40 dark:bg-cyan-700/75'],

@@ -2,14 +2,14 @@
   <h1
     class="mb-3 text-5xl font-bold transition-colors duration-250 ease-in-out"
     :class="{
-      'text-blue-500': size === 5,
-      'text-sky-500': size === 6,
-      'text-teal-500': size === 7,
-      'text-green-500': size === 8,
-      'text-lime-500': size === 9,
-      'text-amber-500': size === 10,
-      'text-orange-500': size === 11,
-      'text-red-500': size === 12,
+      'text-blue-500': [5, 6].includes(size),
+      'text-sky-500': [7, 8].includes(size),
+      'text-teal-500': [9, 10].includes(size),
+      'text-green-500': [11, 12].includes(size),
+      'text-lime-500': [13, 14].includes(size),
+      'text-amber-500': [15, 16].includes(size),
+      'text-orange-500': [17, 18].includes(size),
+      'text-red-500': [19, 20].includes(size),
     }"
   >
     DEMINE

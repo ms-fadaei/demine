@@ -1,16 +1,20 @@
 <template>
   <div class="flex">
-    <div class="text-sm basis-full">
-      <span>Flags: </span>
-      <strong class="text-indigo-500">{{ flagsCount }}/{{ minesCount }}</strong>
+    <div class="text-lg basis-full flex items-center">
+      <MineSvg class="w-6 h-6 inline-block mr-1 text-red-500/85" />
+      <strong class="text-red-500">{{ minesCount - flagsCount }}</strong>
     </div>
-    <div class="text-sm basis-auto">
-      <strong class="text-orange-500"> {{ minutes }}:{{ seconds }} </strong>
+    <div class="text-lg basis-auto flex items-center">
+      <ClockSvg class="w-5 h-5 inline-block mr-2 text-blue-500/85" />
+      <strong class="text-blue-500"> {{ minutes }}:{{ seconds }} </strong>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import MineSvg from '~/assets/mine.svg'
+import ClockSvg from '~/assets/clock.svg'
+
 interface Props {
   flagsCount: number
   minesCount: number

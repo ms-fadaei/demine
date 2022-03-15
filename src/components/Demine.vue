@@ -1,53 +1,58 @@
 <template>
   <h1 class="text-2xl font-bold mb-3 text-cool-gray-600 dark:text-cool-gray-400">DEMINE</h1>
   <div
-    class="grid gap-1 relative"
+    class="grid gap-1 relative max-w-full overflow-auto"
     :style="{ 'grid-template-columns': `repeat(${cols}, 1fr)` }"
     v-bind="$attrs"
   >
-    <div v-for="(cell, index) in blocks" :key="index">
-      <button
-        class="tile transition-colors duration-50 ease-linear"
-        :class="{
-          'tile-hole': isHole(cell),
-          'tile-checked': isSatisfied(cell),
-          '!tile-mine': isMine(cell),
-        }"
-        :disabled="status !== 'playing'"
-        @click="openTile(index)"
-        @contextmenu="flagTile($event, index)"
-        @dblclick="openNeighboursTile($event, index)"
-      >
-        <template v-if="cell.isRevealed && cell.isFlagged">
-          <span v-if="cell.isMine">✔️</span>
-          <span v-else>❌</span>
+    <button
+      v-for="(cell, index) in blocks"
+      :key="index"
+      class="tile transition-colors duration-50 ease-linear"
+      :class="{
+        'tile-hole': isHole(cell),
+        'tile-checked': isSatisfied(cell),
+        '!tile-mine': isMine(cell),
+      }"
+      :disabled="status !== 'playing'"
+      @click="openTile(index)"
+      @contextmenu="flagTile($event, index)"
+      @dblclick="openNeighboursTile($event, index)"
+    >
+      <template v-if="cell.isRevealed && cell.isFlagged">
+        <MineFlaggedSvg v-if="cell.isMine" />
+        <HoleFlaggedSvg v-else />
+      </template>
+      <template v-else-if="cell.isFlagged">
+        <FlagSvg />
+      </template>
+      <template v-else-if="cell.isRevealed">
+        <template v-if="cell.isMine">
+          <MineExplodedSvg v-if="lastIndex === index" />
+          <MineSvg v-else />
         </template>
-        <template v-else-if="cell.isFlagged">
-          <span>🚩</span>
-        </template>
-        <template v-else-if="cell.isRevealed">
-          <template v-if="cell.isMine">
-            <span v-if="lastIndex === index">💥</span>
-            <span v-else>💣</span>
-          </template>
-          <span v-else-if="cell.mineCount > 0">{{ cell.mineCount }}</span>
-        </template>
-      </button>
-    </div>
+        <span v-else-if="cell.mineCount > 0">{{ cell.mineCount }}</span>
+      </template>
+    </button>
     <div v-if="status === 'won'" class="won"><span>You Won</span></div>
   </div>
   <DemineInfo
-    class="mt-6 w-40"
+    class="mt-6 w-50"
     :flags-count="flagsCount"
     :mines-count="minesCount"
     :status="status"
   />
-  <button class="button mt-2 w-40" @click="$emit('restart')">restart</button>
+  <button class="button mt-2 w-50" @click="$emit('restart')">restart</button>
 </template>
 
 <script setup lang="ts">
 import { initDemine } from '~/composables'
 import { Block } from '~/types'
+import MineSvg from '~/assets/mine.svg'
+import FlagSvg from '~/assets/flag.svg'
+import HoleFlaggedSvg from '~/assets/hole-flagged.svg'
+import MineFlaggedSvg from '~/assets/mine-flagged.svg'
+import MineExplodedSvg from '~/assets/mine-exploded.svg'
 
 interface Props {
   rows: number
